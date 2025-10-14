@@ -54,7 +54,19 @@ public class Velosipeds {
 		+"\nIestatītais sēdekļa augstums ~ "+noteiktSedeklPoz()+"\nĀtrums ~ "+noteiktAtr()+" m/s";
 		
 	}
-	
-	
+	public void iestatitSedeklaPoz(int pozicija) {
+		sedeklPoz = pozicija;
+	}
+	public void mities(int minienuSk) {
+		
+		atrumsMS += noteiktAtr() + (0.15 * minienuSk);
+	}
+	public void bremzet(int berze) {
+		if(noteiktAtr() > 0) {
+			atrumsMS -= (noteiktAtr() * 0.55) * berze;
+			if(atrumsMS < 0) atrumsMS = 0;
+		}
+		
+	}
 	
 }
