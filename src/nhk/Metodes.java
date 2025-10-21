@@ -1,11 +1,15 @@
 package nhk;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 
 public class Metodes {
 
@@ -64,6 +68,19 @@ public class Metodes {
     	JFrame jf = new JFrame();
     	JOptionPane jop = new JOptionPane();
     	JSlider js = bidjosla(jop, 6);
+    	jop.setMessage(new Object[] {"Kurā pozīcijā iestatīt sēdekļi?", js});
+    	jop.setMessageType(JOptionPane.QUESTION_MESSAGE);
+    	jop.setOptionType(JOptionPane.OK_CANCEL_OPTION);
+    	JDialog jd = jop.createDialog(jf, "Sēdekļa pozīcija iestatīšana");
+    	jd.setVisible(true);
+    	return (int) jop.getInputValue();
+    	
+    }
+    static int iestatitAtrumu() {
+    	
+    	JFrame jf = new JFrame();
+    	JOptionPane jop = new JOptionPane();
+    	JSlider js = bidjosla(jop, 12);
     	jop.setMessage(new Object[] {"Kuru ātrumu iestatīt?", js});
     	jop.setMessageType(JOptionPane.QUESTION_MESSAGE);
     	jop.setOptionType(JOptionPane.OK_CANCEL_OPTION);
@@ -72,4 +89,24 @@ public class Metodes {
     	return (int) jop.getInputValue();
     	
     }
+	static int ritenaIzvele(ArrayList<Object> riteni) {
+
+		String[] riten = new String[riteni.size()];
+		for(int i=0; i<riten.length; i++) {
+			
+			riten[i] = (((Velosipeds)riteni.get(i)).noteiktRaz())+" "+(((Velosipeds)riteni.get(i)).noteiktCenu())+" EUR";
+		}
+		
+		String x = (String) JOptionPane.showInputDialog(null, "Izvēlēties riteņu", "Izvēle", JOptionPane.QUESTION_MESSAGE, null,
+				riten, riten[0]);
+		
+		int izveID = Arrays.asList(riten).indexOf(x);
+		
+		return izveID;
+	}    	
+
+    	
+    	
+    
+    
 }
