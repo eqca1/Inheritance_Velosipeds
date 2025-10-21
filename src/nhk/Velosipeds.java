@@ -2,7 +2,7 @@ package nhk;
 
 import java.util.Random;
 
-public class Velosipeds {
+public class Velosipeds implements Comparable<Velosipeds>{
 	// atr
 	private int ritenaD, sedeklPoz;
 	private double atrumsMS, cena;
@@ -32,7 +32,7 @@ public class Velosipeds {
 		
 		return razotajs;
 	}
-	public double noteiktCenu() {
+	public Double noteiktCenu() {
 		
 		return cena;
 	}
@@ -69,4 +69,10 @@ public class Velosipeds {
 		
 	}
 	
+	@Override
+	public int compareTo(Velosipeds v) {
+		
+		return this.noteiktCenu().compareTo(v.noteiktCenu());
+		
+	}
 }

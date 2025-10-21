@@ -1,10 +1,14 @@
 package nhk;
 
 import java.awt.Dimension;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -13,7 +17,7 @@ public class Ritenbraucejs {
 
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedURLException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 		
 		String izv;
 		int izvID;
@@ -138,6 +142,82 @@ public class Ritenbraucejs {
 					break;
 					
 				}
+				break;
+				
+			case 4:
+				if(riteni.size()>0) {
+					
+					int NizveID = Metodes.ritenaIzvele(riteni);
+					String[] metodes = {"Noteikt riteņa izmēru", "Iestatīt sēdekli", "Noteikt kustības ātrumu",
+							"Mīties", "Bremzēt", "Noteikt iestatīto ātrumu", "Pārslēgt ātrumu", "Palīgriteņi", "Zvaniņš"};
+
+					String izvele1 = (String) JOptionPane.showInputDialog(null, "Izvēlies metodi", "Metodes izvēle", JOptionPane.QUESTION_MESSAGE,
+							null, metodes, metodes[0]);
+					if(izvele1 == null) {
+						break;
+					}
+					int izvelesID1 = Arrays.asList(metodes).indexOf(izvele1);	
+					switch(izvelesID1) {
+					case 0:
+						JOptionPane.showMessageDialog(null, "Riteņa izmērs ir "+(((Velosipeds) riteni.get(NizveID)).noteiktRitenaD())+" cm, "
+								+ "un sedekļa pozīcija ir "+(((Velosipeds) riteni.get(NizveID)).noteiktSedeklPoz())+".", "Noteikt riteņa izmēru", 
+								JOptionPane.INFORMATION_MESSAGE);
+					break;
+					case 1:
+						
+						((Velosipeds) riteni.get(NizveID)).iestatitSedeklaPoz(Metodes.iestatitSedekli());
+						JOptionPane.showMessageDialog(null, "Sedekļa pozīcija veiksmīgi iestatīta",
+								"Veiksme", JOptionPane.INFORMATION_MESSAGE);
+					break;
+					case 2:
+						JOptionPane.showMessageDialog(null, "Riteņa kustība ātrums ir "+(((Velosipeds) riteni.get(NizveID)).noteiktAtr())+" m/s.", "Noteikt kustības ātrumu", 
+								JOptionPane.INFORMATION_MESSAGE);
+					break;
+					case 3:
+						((Velosipeds) riteni.get(NizveID)).mities(Integer.parseInt(JOptionPane.showInputDialog(null, "Cik mītienu jūs grībāt uztaisīt?", "Mities", JOptionPane.QUESTION_MESSAGE)));
+					break;
+					case 4: 
+						((Velosipeds) riteni.get(NizveID)).bremzet(Integer.parseInt(JOptionPane.showInputDialog(null, "Cik jūs grībāt uzbremzēt?", "Bremzēt", JOptionPane.QUESTION_MESSAGE)));
+					break;
+					case 5:
+						if(riteni.get(NizveID) instanceof KalnuRitenis) {
+							JOptionPane.showMessageDialog(null, "Iestatītais ātrums ir "+((KalnuRitenis)riteni.get(NizveID)).noteiktIestatAtr()+".", 
+									"Noteikt iestatīto ātrumu", JOptionPane.INFORMATION_MESSAGE);
+						}else JOptionPane.showMessageDialog(null, "Šim riteņa veidam nav iestatītie ātrumi~", "Kļūda", JOptionPane.ERROR_MESSAGE);
+						
+					break;
+					case 6:
+						if(riteni.get(NizveID) instanceof KalnuRitenis) {
+							((KalnuRitenis) riteni.get(NizveID)).parslegtAtr(Metodes.iestatitAtrumu());
+						}else JOptionPane.showMessageDialog(null, "Šim riteņa veidam nav iestatītie ātrumi~", "Kļūda", JOptionPane.ERROR_MESSAGE);
+					break;
+					case 7:
+						if(riteni.get(NizveID) instanceof BernuRitenis) {
+							boolean darbiba;
+							String izv2 = (String) JOptionPane.showInputDialog(null, "Veikt darbību ar palīgrīteņiem?", "Izvēle", JOptionPane.QUESTION_MESSAGE,
+									null, atbilde, atbilde[0]);
+							if(izv2 == null || izv2 == "Nē") darbiba = false; 
+							else darbiba = true;
+							
+							((BernuRitenis)riteni.get(NizveID)).darbArPaligrit(darbiba);
+						}else JOptionPane.showMessageDialog(null, "Šim riteņa veidam nav palīgriteņi~", "Kļūda", JOptionPane.ERROR_MESSAGE);
+			
+					break;
+						case 8:
+						if(riteni.get(NizveID) instanceof BernuRitenis) {
+							((BernuRitenis)riteni.get(NizveID)).zvanitZvaninu();
+						}else JOptionPane.showMessageDialog(null, "Šim riteņa veidam nav zvaniņš~", "Kļūda", JOptionPane.ERROR_MESSAGE);
+						
+					break;
+					}
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Sarakstā nav neviens ritenis!", "Brīdinājums", JOptionPane.WARNING_MESSAGE);
+					break;
+				}
+				break;
+			case 5:
+				JOptionPane.showMessageDialog(null, "Programma apturēta~", "Brīdinājums", JOptionPane.WARNING_MESSAGE);
 				break;
 			}
 		}while(izvID != 5);
